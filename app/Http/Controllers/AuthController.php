@@ -25,15 +25,18 @@ class AuthController extends Controller
     function tampilLogin(){
         return view('login');
     }
-    function submitLogin(Request $request) {
-        $data = $request->only('email','password');
+    public function login(Request $request){
+    $credentials = $request->only('email', 'password');
 
-        if(Auth::attempt($data)) {
-            $request->session()->regenerate();
-            return redirect()->route('/dashboard');
-        } else {
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate(); // penting!
+        return redirect()->intended('/dashboard');
+    } else {
             return redirect()->back()->with('Gagal', 'Email atau Password Anda Salah');
         }
+    }
+    public function logout(){
+        return view('logout');
     }
 }
 
